@@ -1,0 +1,96 @@
+<!--
+最后编辑时间：2019年02月17日15:02:40
+-->
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>HTML压缩</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="CPlayer">
+    <meta name="description" content="HTML、CSS和JavaScript压缩。">
+    <meta name="keywords" content="HTML,CSS,JavaScript,JS,compress">
+    <link rel="stylesheet" href="assets/materialize.min.css">
+    <script type="text/javascript" src="assets/jquery-3.3.1.min.js"></script>
+    <style>
+    textarea {
+        min-height: 33vh; /* 最小高度: 视口高度的33%。 */
+        resize: none; /* 元素调整大小: 不可调整。 */
+        border: none; /* 边界: 不显示边界。 */
+        outline: none; /* 轮廓: 不显示轮廓。 */
+    }
+    @media only screen and (min-width: 601px) { /*@规则 仅 屏幕 与 (最小宽度: 601像素)*/
+        textarea {
+            min-height: 76vh; /* 最小高度: 视口高度的76%。 */
+        }
+    }
+    </style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<nav>
+    <div class="nav-wrapper blue hoverable center">
+        <form class="well">
+            原始长度:<span id="old">none</span>
+            压缩后长度:<span id="new">none</span>
+            缩小百分比:<span id="range">none</span>%
+        </form>
+    </div>
+</nav>
+
+<!-- 主内容 -->
+<div class="row container">
+    <!-- 输入 -->
+    <div class="col s12 m6">
+        <div class="card hoverable">
+            <div class="card-content">
+                <textarea id='source' placeholder="粘贴需压缩的内容。" spellcheck="false"></textarea>
+            </div>
+        </div>
+    </div>
+    <!-- 输出 -->
+    <div class="col s12 m6">
+        <div class="card hoverable">
+            <div class="card-content">
+                <textarea id='result' placeholder="点击此处后显示。"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+/*
+参考
+https://www.textfixer.com/js/compress-html-v6c.js
+http://tool.oschina.net/jscompress?type=2
+*/
+$(function(){
+  $("#source").blur(function(){
+    var source = $("#source").val();
+    var sourceLength = source.length;
+	if(sourceLength==0){
+            $("#result").text("待压缩的代码不能为空！");
+            return;
+	}
+    source = source.replace(/(\r\n|\n|\r|\t)/gm,"");
+    source = source.replace(/\s+/g," ");
+    source = source.replace(/<!--.*?-->/g,"") //去除 HTML 注释
+    source = source.replace(/(\/\/.*)|(\/\*[\s\S]*?\*\/)/g,"") //去除 CSS和JavaScript 注释
+    source = source.replace(/[ ]+</ig,"<") // 去除 HTML空格
+    source = source.replace(/[ ]+{/ig,"{") // 去除 CSS空格
+    source = source.replace(/[ ]+}/ig,"}") // 去除 CSS空格
+    $("#result").val(source);
+	var resultLength = source.length;
+	var range = 100-(resultLength/sourceLength*100);
+    $("#old").text(sourceLength);
+    $("#new").text(resultLength);
+    $("#range").text(range.toFixed(2));
+    }
+  );
+});
+</script>
+
+</body>
+</html>
