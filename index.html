@@ -77,7 +77,7 @@ $(function(){
     source = source.replace(/(\r\n|\n|\r|\t)/gm,"");
     source = source.replace(/\s+/g," ");
     source = source.replace(/<!--.*?-->/g,"") //去除 HTML 注释
-    source = source.replace(/(\/\/.*)|(\/\*[\s\S]*?\*\/)/g,"") //去除 CSS和JavaScript 注释
+//    source = source.replace(/(\/\/.*)|(\/\*[\s\S]*?\*\/)/g,"") 去除 CSS和JavaScript 注释  会误伤链接
     source = source.replace(/[ ]+</ig,"<") // 去除 HTML空格
     source = source.replace(/[ ]+{/ig,"{") // 去除 CSS空格
     source = source.replace(/[ ]+}/ig,"}") // 去除 CSS空格
